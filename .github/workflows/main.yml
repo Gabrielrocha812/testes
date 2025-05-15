@@ -24,7 +24,7 @@ jobs:
     - name: 📂 Deploy via SSH
       run: |
         ssh -i ~/.ssh/id_rsa ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }} << 'EOF'
-          cd /home/deploy/teste_push_auto
+          cd /home/deploy/testes
           git pull origin main
           # opcional: restart do serviço
           # docker-compose down && docker-compose up -d
