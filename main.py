@@ -9,3 +9,7 @@ app = FastAPI()
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/testes")
+async def home(request: Request):
+    return templates.TemplateResponse("teste.html", {"request": request})
+
