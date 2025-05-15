@@ -1,0 +1,31 @@
+on: 
+  push:
+    branches:
+      - main      
+
+name: 🚀 Deploy website on push
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    - name: 🔐 Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.FTP_HOST }} >> ~/.ssh/known_hosts
+
+    - name: 📂 Deploy via SSH
+      run: |
+        ssh -i ~/.ssh/id_rsa ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }} << 'EOF'
+          cd /home/deploy/teste_push_auto
+          git pull origin main
+          # opcional: restart do serviço
+          # docker-compose down && docker-compose up -d
+        EOF
