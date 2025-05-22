@@ -24,8 +24,10 @@ jobs:
     - name: 📂 Deploy via SSH
       run: |
         ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }} << 'EOF'
+          git config --global --add safe.directory /home/deploy/testes
           cd /home/deploy/testes
           git pull origin main
           # opcional: restart do serviço
           # docker-compose down && docker-compose up -d
         EOF
+
