@@ -19,11 +19,11 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.FTP_HOST }} >> ~/.ssh/known_hosts
+        ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.FTP_HOST }} >> ~/.ssh/known_hosts
 
     - name: 📂 Deploy via SSH
       run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }} << 'EOF'
+        ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }} << 'EOF'
           cd /home/deploy/testes
           git pull origin main
           # opcional: restart do serviço
